@@ -1,72 +1,65 @@
+var n = document.querySelectorAll(".drum").length;
+var volumeControl = document.getElementById("volume");
+var currentVolume = 1; // Default volume
 
-// This is a comment.
-var n = document.querySelectorAll(" .drum").length;
+// Update current volume when the slider value changes
+volumeControl.addEventListener("input", function () {
+    currentVolume = volumeControl.value;
+});
 
-for(var i = 0;i<n;i++){
-
-document.querySelectorAll("button")[i].addEventListener("click",function () {
+for (var i = 0; i < n; i++) {
+    document.querySelectorAll("button")[i].addEventListener("click", function () {
         var buttonInnerHTML = this.innerHTML;
         makeSound(buttonInnerHTML);
-        buttonAnimation(buttonInnerHTML)  
-});
-
+        buttonAnimation(buttonInnerHTML);
+    });
 }
 
-
-document.addEventListener("keydown" ,function(event){
-
-   makeSound(event.key);   
-   buttonAnimation(event.key)   
+document.addEventListener("keydown", function (event) {
+    makeSound(event.key);
+    buttonAnimation(event.key);
 });
 
+function makeSound(key) {
+    var audio;
 
-
-
-
-function makeSound (key){
-
-switch (key) {
+    switch (key) {
         case "w":
-        var tom1 = new Audio('sounds/tom-1.mp3');
-        tom1.play();
-                break;
+            audio = new Audio('sounds/tom-1.mp3');
+            break;
         case "a":
-        var tom2  = new Audio('sounds/tom-2.mp3');
-        tom2.play();
-                break;
+            audio = new Audio('sounds/tom-2.mp3');
+            break;
         case "s":
-        var tom3  = new Audio('sounds/tom-3.mp3');
-        tom3.play();
-                break;
+            audio = new Audio('sounds/tom-3.mp3');
+            break;
         case "d":
-        var tom4  = new Audio('sounds/tom-4.mp3');
-        tom4.play();
-                break;
+            audio = new Audio('sounds/tom-4.mp3');
+            break;
         case "j":
-        var crash  = new Audio('sounds/crash.mp3');
-        crash.play();
-                break;
+            audio = new Audio('sounds/crash.mp3');
+            break;
         case "k":
-        var kick  = new Audio('sounds/kick-bass.mp3');
-        kick.play();
-                break;
+            audio = new Audio('sounds/kick-bass.mp3');
+            break;
         case "l":
-        var snare  = new Audio('sounds/snare.mp3');
-        snare.play();
-                break;
-        default:console.log(buttoninnerHTML)
-                break;
+            audio = new Audio('sounds/snare.mp3');
+            break;
+        default:
+            console.log(buttonInnerHTML);
+            return; // Exit if no valid key is pressed
     }
+
+    audio.volume = currentVolume; // Set the volume to the current volume level
+    audio.play();
 }
 
-
-
-function buttonAnimation(currentKey){
-  var activeButton = document.querySelector("."+currentKey);
-  activeButton.classList.add("pressed");
-  setTimeout(function(){
-        activeButton.classList.remove("pressed");
-
-  },100);
-
+function buttonAnimation(currentKey) {
+    var activeButton = document.querySelector("." + currentKey);
+    if (activeButton) { // Check if activeButton exists
+        activeButton.classList.add("pressed");
+        setTimeout(function () {
+            activeButton.classList.remove("pressed");
+        }, 100);
+    }
 }
